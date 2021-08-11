@@ -29,8 +29,7 @@ public class EmployeesController {
 
     @GetMapping(path = "/{employeeId}")
     public Employee findById(@PathVariable Integer employeeId) {
-        return employees.stream()
-                .filter((employee -> employee.getId().equals(employeeId))).findFirst().orElse(null);
+        return employeeService.findById(employeeId);
     }
 
     @GetMapping(params = "gender")
