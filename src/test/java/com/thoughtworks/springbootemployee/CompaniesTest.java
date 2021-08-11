@@ -55,4 +55,11 @@ public class CompaniesTest {
         assertEquals(expectedCompanies.get(0), outputCompany);
     }
 
+    @Test
+    void should_return_all_employees_in_company_when_getAllEmployeesInCompany_given_company_id() {
+        given(companyRepository.getAll()).willReturn(expectedCompanies);
+        List<Employee> outputEmployees = service.getAllEmployeesInCompany(1);
+        assertEquals(outputEmployees, expectedCompanies.get(0).getEmployees());
+    }
+
 }

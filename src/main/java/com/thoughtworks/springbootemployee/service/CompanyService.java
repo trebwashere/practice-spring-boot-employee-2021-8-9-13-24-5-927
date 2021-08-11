@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,9 @@ public class CompanyService {
                 .filter(company -> company.getId().equals(companyId))
                 .findAny()
                 .orElse(null);
+    }
+
+    public List<Employee> getAllEmployeesInCompany(Integer companyId) {
+        return findById(companyId).getEmployees();
     }
 }
