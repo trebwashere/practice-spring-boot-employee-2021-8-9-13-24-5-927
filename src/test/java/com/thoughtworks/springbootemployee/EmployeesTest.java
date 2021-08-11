@@ -97,4 +97,18 @@ public class EmployeesTest {
         assertEquals(2, expectedEmployees.size());
         assertEquals(1, expectedEmployeeToBeDeleted.getId());
     }
+
+    @Test
+    void should_update_employee_when_update_given_employee_information_and_employee_id() {
+        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        Employee updateEmployeeDetails = new Employee(){{
+           setName("Bertwo");
+           setSalary(10000);
+        }};
+        Employee outputEmployeeAfterUpdate = service.update(1, updateEmployeeDetails);
+        assertEquals(expectedEmployees.get(0).getName(), updateEmployeeDetails.getName());
+        assertEquals(expectedEmployees.get(0).getSalary(), updateEmployeeDetails.getSalary());
+        assertEquals(outputEmployeeAfterUpdate.getName(), updateEmployeeDetails.getName());
+        assertEquals(outputEmployeeAfterUpdate.getSalary(), updateEmployeeDetails.getSalary());
+    }
 }
