@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -55,4 +56,12 @@ public class EmployeesController {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee createEmployee(@RequestBody Employee employee) {
+        employees.add(employee);
+        return employee;
+    }
+
 }
