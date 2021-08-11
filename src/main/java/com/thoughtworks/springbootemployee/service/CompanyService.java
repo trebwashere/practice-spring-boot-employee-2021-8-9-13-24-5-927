@@ -40,4 +40,11 @@ public class CompanyService {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public Company create(Company company) {
+        Company companyToBeAdded = new Company(companyRepository.getAll().size() + 1, company.getName(), company.getEmployees());
+        companyRepository.getAll().add(companyToBeAdded);
+
+        return companyToBeAdded;
+    }
 }

@@ -71,6 +71,21 @@ public class CompaniesTest {
         assertEquals(outputCount, expectedCount);
     }
 
-    
+    @Test
+    void should_create_company_and_add_to_list_when_create_given_company_information() {
+        List<Company> companies = new ArrayList<>();
+        given(companyRepository.getAll()).willReturn(companies);
+        Company createCompanyDetails = new Company(){{
+            setName("TestCompany");
+            setEmployees(Arrays.asList(new Employee(), new Employee()));
+        }};
+        service.create(createCompanyDetails);
+        assertEquals(1, companies.size());
+        assertEquals(companies.get(0).getId(), 1);
+        assertEquals(createCompanyDetails.getName(), companies.get(0).getName());
+        assertEquals(2, companies.get(0).getEmployees().size());
+    }
+
+
 
 }
