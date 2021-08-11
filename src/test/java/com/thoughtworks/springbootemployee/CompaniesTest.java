@@ -62,4 +62,15 @@ public class CompaniesTest {
         assertEquals(outputEmployees, expectedCompanies.get(0).getEmployees());
     }
 
+    @Test
+    void should_return_five_elements_only_in_a_list_when_getListByPagination_given_pageSize_is_five_and_pageIndex_is_one() {
+        given(companyRepository.getAll()).willReturn(Arrays.asList(new Company(),new Company(),new Company(),new Company(),new Company(),new Company()
+                ,new Company(),new Company(),new Company(),new Company()));
+        int expectedCount = 5;
+        int outputCount = service.getListByPagination(1, 5).size();
+        assertEquals(outputCount, expectedCount);
+    }
+
+    
+
 }

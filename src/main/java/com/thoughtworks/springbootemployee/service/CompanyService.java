@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -30,5 +31,13 @@ public class CompanyService {
 
     public List<Employee> getAllEmployeesInCompany(Integer companyId) {
         return findById(companyId).getEmployees();
+    }
+
+    public List<Company> getListByPagination(Integer pageIndex, Integer pageSize) {
+        long paginationFormula =  (long) (pageIndex - 1) * pageSize;
+        return companyRepository.getAll().stream()
+                .skip(paginationFormula)
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
 }
