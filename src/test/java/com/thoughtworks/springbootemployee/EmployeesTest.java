@@ -107,4 +107,22 @@ public class EmployeesTest {
         assertEquals(outputEmployeeAfterUpdate.getName(), updateEmployeeDetails.getName());
         assertEquals(outputEmployeeAfterUpdate.getSalary(), updateEmployeeDetails.getSalary());
     }
+
+    @Test
+    void should_create_employee_and_add_to_list_when_create_given_employee_information() {
+        List<Employee> employees = new ArrayList<>();
+        given(employeeRepository.getAll()).willReturn(employees);
+        Employee updateEmployeeDetails = new Employee(){{
+            setName("Bertwo");
+            setAge(25);
+            setGender("Male");
+            setSalary(10000);
+        }};
+        service.create(updateEmployeeDetails);
+        assertEquals(1, employees.size());
+        assertEquals(employees.get(0).getId(), 1);
+        assertEquals(updateEmployeeDetails.getName(), employees.get(0).getName());
+        assertEquals(updateEmployeeDetails.getAge(), employees.get(0).getAge());
+        assertEquals(updateEmployeeDetails.getSalary(), employees.get(0).getSalary());
+    }
 }

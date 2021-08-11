@@ -77,4 +77,12 @@ public class EmployeeService {
         }
         return employee;
     }
+
+    public Employee create(Employee employee) {
+        Employee employeeToBeAdded = new Employee(employeeRepository.getAll().size() + 1, employee.getName(),
+                employee.getAge(), employee.getGender(), employee.getSalary());
+        employeeRepository.getAll().add(employeeToBeAdded);
+
+        return employeeToBeAdded;
+    }
 }
