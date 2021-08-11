@@ -59,9 +59,12 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee createEmployee(@RequestBody Employee employee) {
-        employees.add(employee);
-        return employee;
+    public Employee create(@RequestBody Employee employee) {
+        Employee employeeToBeAdded = new Employee(employees.size() + 1, employee.getName(),
+                employee.getAge(), employee.getGender(), employee.getSalary());
+        employees.add(employeeToBeAdded);
+
+        return employeeToBeAdded;
     }
 
 }
