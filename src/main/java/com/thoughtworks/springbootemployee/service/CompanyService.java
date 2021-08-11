@@ -66,4 +66,16 @@ public class CompanyService {
         }
         return company;
     }
+
+    public Company delete(Integer companyId) {
+        Company toBeRemoved = companyRepository.getAll().stream()
+                .filter(company -> company.getId()
+                        .equals(companyId))
+                .findFirst().orElse(null);
+        if (toBeRemoved != null) {
+            companyRepository.getAll().remove(toBeRemoved);
+            return toBeRemoved;
+        }
+        return null;
+    }
 }

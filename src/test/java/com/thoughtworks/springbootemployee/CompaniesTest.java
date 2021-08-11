@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -99,6 +100,24 @@ public class CompaniesTest {
         assertEquals(testEmployee, updateCompanyDetails.getEmployees().get(0));
         assertEquals(outputCompanyAfterUpdate.getName(), updateCompanyDetails.getName());
         assertEquals(outputCompanyAfterUpdate.getEmployees().get(0),updateCompanyDetails.getEmployees().get(0));
+    }
+
+    @Test
+    void should_delete_company_when_delete_given_company_id_and_all_companies() {
+        List<Company> expectedCompanies = new ArrayList<>();
+        expectedCompanies.add(new Company(1,
+                "BertCompany",
+                Arrays.asList(new Employee(1, "Bert", 25, "Male", 100),
+                        new Employee(2, "Kyle", 25, "Male", 100))));
+        expectedCompanies.add(new Company(2,
+                "KyleCompany",
+                Arrays.asList(new Employee(1, "Bert2", 52, "Female", 1000),
+                        new Employee(2, "Kyle2", 52, "Male", 1000))));
+        given(companyRepository.getAll()).willReturn(expectedCompanies);
+        Company expectedCompanyToBeDeleted = service.delete(1);
+        assertNotNull(expectedCompanyToBeDeleted);
+        assertEquals(1, expectedCompanies.size());
+        assertEquals(1, expectedCompanyToBeDeleted.getId());
     }
 
 }
