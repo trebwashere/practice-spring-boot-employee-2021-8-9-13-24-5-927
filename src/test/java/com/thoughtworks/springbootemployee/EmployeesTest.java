@@ -73,4 +73,13 @@ public class EmployeesTest {
                 .filter(gender -> gender.equals("Female")).count());
         assertEquals(expectedEmployees.get(0).getGender(), outputEmployees.get(0).getGender());
     }
+
+    @Test
+    void should_return_five_elements_only_in_a_list_when_getListByPagination_given_pageSize_is_five_and_pageIndex_is_one() {
+        given(employeeRepository.getAll()).willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee(),new Employee(),new Employee()
+        ,new Employee(),new Employee(),new Employee(),new Employee()));
+        int expectedCount = 5;
+        int outputCount = service.getListByPagination(1, 5).size();
+        assertEquals(outputCount, expectedCount);
+    }
 }
