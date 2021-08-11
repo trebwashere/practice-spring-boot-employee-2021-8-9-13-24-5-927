@@ -34,9 +34,7 @@ public class EmployeesController {
 
     @GetMapping(params = "gender")
     public List<Employee> findByGender(@RequestParam("gender") String gender) {
-        return employees.stream()
-                .filter((employee -> employee.getGender().equals(gender)))
-                .collect(Collectors.toList());
+        return employeeService.findByGender(gender);
     }
 
     @DeleteMapping("/{employeeId}")

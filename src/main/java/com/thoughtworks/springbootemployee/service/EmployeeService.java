@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -26,5 +27,11 @@ public class EmployeeService {
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findAny()
                 .orElse(null);
+    }
+
+    public List<Employee> findByGender(String gender) {
+        return employeeRepository.getAll().stream()
+                .filter(employee -> employee.getGender().equals(gender))
+                .collect(Collectors.toList());
     }
 }
