@@ -41,4 +41,16 @@ public class EmployeeService {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public Employee delete(Integer employeeId) {
+        Employee toBeRemoved = employeeRepository.getAll().stream()
+                .filter(employee -> employee.getId()
+                        .equals(employeeId))
+                .findFirst().orElse(null);
+        if (toBeRemoved != null) {
+            employeeRepository.getAll().remove(toBeRemoved);
+            return toBeRemoved;
+        }
+        return null;
+    }
 }

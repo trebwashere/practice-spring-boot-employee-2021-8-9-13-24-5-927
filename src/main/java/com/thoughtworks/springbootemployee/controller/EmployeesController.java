@@ -39,15 +39,7 @@ public class EmployeesController {
 
     @DeleteMapping("/{employeeId}")
     public Employee delete(@PathVariable Integer employeeId) {
-        Employee toBeRemoved = employees.stream()
-                .filter(employee -> employee.getId()
-                        .equals(employeeId))
-                .findFirst().orElse(null);
-        if (toBeRemoved != null) {
-            employees.remove(toBeRemoved);
-            return toBeRemoved;
-        }
-        return null;
+        return employeeService.delete(employeeId);
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})

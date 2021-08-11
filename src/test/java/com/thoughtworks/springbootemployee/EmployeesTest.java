@@ -10,11 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,5 +83,18 @@ public class EmployeesTest {
         int expectedCount = 5;
         int outputCount = service.getListByPagination(1, 5).size();
         assertEquals(outputCount, expectedCount);
+    }
+
+    @Test
+    void should_delete_employee_when_delete_given_employee_id_and_all_employees() {
+        List<Employee> expectedEmployees = new ArrayList<>();
+        expectedEmployees.add(new Employee(1, "Bert", 25, "Male", 100));
+        expectedEmployees.add(new Employee(2, "Kyle", 25, "Male", 100));
+        expectedEmployees.add(new Employee(3, "Shanine", 24, "Female", 1000));
+        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        Employee expectedEmployeeToBeDeleted = service.delete(1);
+        assertNotNull(expectedEmployeeToBeDeleted);
+        assertEquals(2, expectedEmployees.size());
+        assertEquals(1, expectedEmployeeToBeDeleted.getId());
     }
 }
