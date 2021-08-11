@@ -47,4 +47,12 @@ public class EmployeesController {
         }
         return null;
     }
+
+    @GetMapping(params = {"pageIndex", "pageSize"})
+    public List<Employee> getListByPagination(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize) {
+        return employees.stream()
+                .skip((long) (pageIndex - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+    }
 }
