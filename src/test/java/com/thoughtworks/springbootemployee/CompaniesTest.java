@@ -86,6 +86,19 @@ public class CompaniesTest {
         assertEquals(2, companies.get(0).getEmployees().size());
     }
 
-
+    @Test
+    void should_update_company_when_update_given_company_information_and_company_id() {
+        given(companyRepository.getAll()).willReturn(expectedCompanies);
+        Employee testEmployee = new Employee();
+        Company updateCompanyDetails = new Company(){{
+            setName("Bertwo");
+            setEmployees(Arrays.asList(testEmployee,testEmployee));
+        }};
+        Company outputCompanyAfterUpdate = service.update(1, updateCompanyDetails);
+        assertEquals(expectedCompanies.get(0).getName(), updateCompanyDetails.getName());
+        assertEquals(testEmployee, updateCompanyDetails.getEmployees().get(0));
+        assertEquals(outputCompanyAfterUpdate.getName(), updateCompanyDetails.getName());
+        assertEquals(outputCompanyAfterUpdate.getEmployees().get(0),updateCompanyDetails.getEmployees().get(0));
+    }
 
 }

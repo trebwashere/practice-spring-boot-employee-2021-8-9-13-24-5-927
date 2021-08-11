@@ -47,4 +47,23 @@ public class CompanyService {
 
         return companyToBeAdded;
     }
+
+
+    public Company update(Integer companyId, Company updateCompanyDetails) {
+        return companyRepository.getAll().stream()
+                .filter(company -> company.getId().equals(companyId))
+                .findFirst()
+                .map(company -> updateCompanyInformation(company, updateCompanyDetails))
+                .orElse(null);
+    }
+
+    private Company updateCompanyInformation(Company company, Company companyUpdate) {
+        if (companyUpdate.getName() != null) {
+            company.setName(companyUpdate.getName());
+        }
+        if (!companyUpdate.getEmployees().isEmpty() && companyUpdate.getEmployees() != null) {
+            company.setEmployees(companyUpdate.getEmployees());
+        }
+        return company;
+    }
 }
