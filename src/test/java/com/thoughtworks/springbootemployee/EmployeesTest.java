@@ -26,8 +26,9 @@ public class EmployeesTest {
 
     @Test
     void should_return_all_employees_when_getAllEmployees_given_all_employees() {
-        List<Employee> expectedEmployees = Arrays.asList(new Employee(),new Employee());
-        given(service.getAllEmployees()).willReturn(expectedEmployees);
+        List<Employee> expectedEmployees = Arrays.asList(new Employee(1, "Bert", 25, "Male", 100),
+                new Employee(2, "Kyle", 25, "Male", 100));
+        given(employeeRepository.getAll()).willReturn(expectedEmployees);
         List<Employee> outputEmployees = service.getAllEmployees();
         assertEquals(outputEmployees, expectedEmployees);
     }
