@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
-public class EmployeesController{
+public class EmployeesController {
     private final List<Employee> employees = new ArrayList<>();
 
     public EmployeesController() {
@@ -18,12 +18,12 @@ public class EmployeesController{
     }
 
     @GetMapping()
-    public List<Employee> getAllEmployees(){
+    public List<Employee> getAllEmployees() {
         return employees;
     }
 
     @GetMapping(path = "/{employeeId}")
-    public Employee findById(@PathVariable Integer employeeId){
+    public Employee findById(@PathVariable Integer employeeId) {
         return employees.stream()
                 .filter((employee -> employee.getId().equals(employeeId))).findFirst().orElse(null);
     }
@@ -33,5 +33,18 @@ public class EmployeesController{
         return employees.stream()
                 .filter((employee -> employee.getGender().equals(gender)))
                 .collect(Collectors.toList());
+    }
+
+    @DeleteMapping("/{employeeId}")
+    public Employee delete(@PathVariable Integer employeeId) {
+        Employee toBeRemoved = employees.stream()
+                .filter(employee -> employee.getId()
+                        .equals(employeeId))
+                .findFirst().orElse(null);
+        if (toBeRemoved != null) {
+            employees.remove(toBeRemoved);
+            return toBeRemoved;
+        }
+        return null;
     }
 }
