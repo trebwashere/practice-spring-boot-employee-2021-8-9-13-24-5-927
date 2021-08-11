@@ -20,4 +20,11 @@ public class EmployeeService {
     public List<Employee> getAllEmployees(){
         return employeeRepository.getAll();
     }
+
+    public Employee findById(int employeeId) {
+        return employeeRepository.getAll().stream()
+                .filter(employee -> employee.getId().equals(employeeId))
+                .findAny()
+                .orElse(null);
+    }
 }
