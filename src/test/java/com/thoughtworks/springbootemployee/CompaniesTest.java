@@ -48,4 +48,11 @@ public class CompaniesTest {
         assertEquals(outputCompanies, expectedCompanies);
     }
 
+    @Test
+    void should_return_specific_company_when_findById_given_company_id() {
+        given(companyRepository.getAll()).willReturn(expectedCompanies);
+        Company outputCompany = service.findById(1);
+        assertEquals(expectedCompanies.get(0), outputCompany);
+    }
+
 }
