@@ -60,7 +60,6 @@ public class CompaniesIntegrationTest {
         List<Employee> employeeList2 = new ArrayList<>();
         employeeList2.add(new Employee(3, "Bert2", 30, 1000, "Female"));
         employeeList2.add(new Employee(4, "Kyle2", 30, 1000, "Female"));
-        entityManager.joinTransaction();
         company = (new Company(1, "BertCompany", employeeList1));
         testService.save(company);
         company = (new Company(2, "BertCompany2", employeeList2));
@@ -69,7 +68,6 @@ public class CompaniesIntegrationTest {
 
     @AfterEach
     public void tearDown() {
-        entityManager.joinTransaction();
         employeeTestRepo.deleteAll();
         companyTestRepo.deleteAll();
         entityManager.createNativeQuery("ALTER SEQUENCE COMPANY_SEQ RESTART WITH 1").executeUpdate();
