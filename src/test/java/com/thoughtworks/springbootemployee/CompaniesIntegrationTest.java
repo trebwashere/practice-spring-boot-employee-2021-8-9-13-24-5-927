@@ -55,11 +55,11 @@ public class CompaniesIntegrationTest {
     @BeforeEach
     public void setup() {
         List<Employee> employeeList1 = new ArrayList<>();
-        employeeList1.add(new Employee(1, "Bert", 25, 100, "Male"));
-        employeeList1.add(new Employee(2, "Kyle", 25, 100, "Male"));
+        employeeList1.add(new Employee(null, "Bert", 25, 100, "Male"));
+        employeeList1.add(new Employee(null, "Kyle", 25, 100, "Male"));
         List<Employee> employeeList2 = new ArrayList<>();
-        employeeList2.add(new Employee(3, "Bert2", 30, 1000, "Female"));
-        employeeList2.add(new Employee(4, "Kyle2", 30, 1000, "Female"));
+        employeeList2.add(new Employee(null, "Bert2", 30, 1000, "Female"));
+        employeeList2.add(new Employee(null, "Kyle2", 30, 1000, "Female"));
         company = (new Company(1, "BertCompany", employeeList1));
         testService.save(company);
         company = (new Company(2, "BertCompany2", employeeList2));

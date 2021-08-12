@@ -11,14 +11,14 @@ public class Company {
     @SequenceGenerator(sequenceName = "COMPANY_SEQ", allocationSize = 1, name = "COMPANY_SEQ")
     private Integer id;
     private String companyName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "companyId", orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
         this.employees = employees;
-//        employees.forEach(employee -> employee.setCompanyId(this.id));
+        this.employees.forEach(employee -> employee.setCompanyId(this.id));
     }
 
     public Company() {
@@ -42,5 +42,6 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+        this.employees.forEach(employee -> employee.setCompanyId(this.id));
     }
 }

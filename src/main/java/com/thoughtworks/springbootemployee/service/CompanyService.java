@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,7 +29,10 @@ public class CompanyService {
 
     public List<Employee> findAllByEmployeeCompanyId(Integer companyId) {
         Company company = companyRepository.findById(companyId).orElse(null);
-        return company.getEmployees();
+        if (company != null) {
+            return company.getEmployees();
+        }
+        return Collections.emptyList();
     }
 
     public List<Company> getListByPagination(Integer pageIndex, Integer pageSize) {
@@ -36,14 +40,19 @@ public class CompanyService {
     }
 
     public Company save(Company company) {
-        return companyRepository.save(company);
+        if (company.getEmployees().isEmpty()) {
+            return companyRepository.save(company);
+        }
+        Company toBeCreated = companyRepository.save(company);
+        Company companyWithEmployeesWithIds = new Company(toBeCreated.getId(), toBeCreated.getCompanyName(), toBeCreated.getEmployees());
+        return companyRepository.save(companyWithEmployeesWithIds);
     }
 
     public Company update(Integer companyId, Company updateCompanyDetails) {
         Company toBeUpdated = companyRepository.findById(companyId).orElse(null);
         if (toBeUpdated != null) {
             updateCompanyInformation(toBeUpdated, updateCompanyDetails);
-            return save(toBeUpdated);
+            return companyRepository.save(toBeUpdated);
         }
         return null;
     }
