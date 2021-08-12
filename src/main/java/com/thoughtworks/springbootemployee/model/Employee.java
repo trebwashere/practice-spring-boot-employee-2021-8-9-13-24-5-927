@@ -6,7 +6,8 @@ import javax.persistence.*;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMPLOYEE_SEQ")
+    @SequenceGenerator(sequenceName = "EMPLOYEE_SEQ", allocationSize = 1, name = "EMPLOYEE_SEQ")
     private Integer id;
     private String name;
     private Integer age;
@@ -65,5 +66,13 @@ public class Employee {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }
