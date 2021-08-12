@@ -1,8 +1,8 @@
 package com.thoughtworks.springbootemployee;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import com.thoughtworks.springbootemployee.service.EmployeeService;
+import com.thoughtworks.springbootemployee.repository.RetiredEmployeeRepository;
+import com.thoughtworks.springbootemployee.service.RetiredEmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,40 +19,40 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class EmployeesTest {
+public class RetiredEmployeesTest {
 
     @InjectMocks
-    EmployeeService service;
+    RetiredEmployeeService service;
 
     @Mock
-    EmployeeRepository employeeRepository;
+    RetiredEmployeeRepository retiredEmployeeRepository;
 
     private List<Employee> expectedEmployees;
 
     @BeforeEach
     public void setup() {
-        expectedEmployees = Arrays.asList(new Employee(1, "Bert", 25, "Male", 100),
-                new Employee(2, "Kyle", 25, "Male", 100),
-                new Employee(3, "Shanine", 24, "Female", 1000));
+        expectedEmployees = Arrays.asList(new Employee(1, "Bert", 25, 100,"Male"),
+                new Employee(2, "Kyle", 25, 100,"Male"),
+                new Employee(3, "Shanine", 24, 1000, "Female"));
     }
 
     @Test
     void should_return_all_employees_when_getAllEmployees_given_all_employees() {
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         List<Employee> outputEmployees = service.getAllEmployees();
         assertEquals(outputEmployees, expectedEmployees);
     }
 
     @Test
     void should_return_specific_employee_when_findById_given_employee_id() {
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         Employee outputEmployee = service.findById(1);
         assertEquals(expectedEmployees.get(0), outputEmployee);
     }
 
     @Test
     void should_return_male_employees_when_findByGender_given_all_employees() {
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         List<Employee> outputEmployees = service.findByGender("Male");
         assertEquals(2, outputEmployees.stream()
                 .map(Employee::getGender)
@@ -64,7 +63,7 @@ public class EmployeesTest {
 
     @Test
     void should_return_female_employees_when_findByGender_given_all_employees() {
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         List<Employee> outputEmployees = service.findByGender("Female");
         assertEquals(1, outputEmployees.stream()
                 .map(Employee::getGender)
@@ -74,7 +73,7 @@ public class EmployeesTest {
 
     @Test
     void should_return_five_elements_only_in_a_list_when_getListByPagination_given_pageSize_is_five_and_pageIndex_is_one() {
-        given(employeeRepository.getAll()).willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee(),new Employee(),new Employee()
+        given(retiredEmployeeRepository.getAll()).willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee(),new Employee(),new Employee()
         ,new Employee(),new Employee(),new Employee(),new Employee()));
         int expectedCount = 5;
         int outputCount = service.getListByPagination(1, 5).size();
@@ -84,10 +83,10 @@ public class EmployeesTest {
     @Test
     void should_delete_employee_when_delete_given_employee_id_and_all_employees() {
         List<Employee> expectedEmployees = new ArrayList<>();
-        expectedEmployees.add(new Employee(1, "Bert", 25, "Male", 100));
-        expectedEmployees.add(new Employee(2, "Kyle", 25, "Male", 100));
-        expectedEmployees.add(new Employee(3, "Shanine", 24, "Female", 1000));
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        expectedEmployees.add(new Employee(1, "Bert", 25, 100,"Male"));
+        expectedEmployees.add(new Employee(2, "Kyle", 25, 100, "Male"));
+        expectedEmployees.add(new Employee(3, "Shanine", 24, 1000, "Female"));
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         Employee expectedEmployeeToBeDeleted = service.delete(1);
         assertNotNull(expectedEmployeeToBeDeleted);
         assertEquals(2, expectedEmployees.size());
@@ -96,7 +95,7 @@ public class EmployeesTest {
 
     @Test
     void should_update_employee_when_update_given_employee_information_and_employee_id() {
-        given(employeeRepository.getAll()).willReturn(expectedEmployees);
+        given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
         Employee updateEmployeeDetails = new Employee(){{
            setName("Bertwo");
            setSalary(10000);
@@ -111,7 +110,7 @@ public class EmployeesTest {
     @Test
     void should_create_employee_and_add_to_list_when_create_given_employee_information() {
         List<Employee> employees = new ArrayList<>();
-        given(employeeRepository.getAll()).willReturn(employees);
+        given(retiredEmployeeRepository.getAll()).willReturn(employees);
         Employee updateEmployeeDetails = new Employee(){{
             setName("Bertwo");
             setAge(25);

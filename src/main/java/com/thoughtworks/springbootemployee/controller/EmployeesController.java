@@ -16,7 +16,7 @@ public class EmployeesController {
 
     @GetMapping()
     public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+        return employeeService.findAll();
     }
 
     @GetMapping(path = "/{employeeId}")
@@ -26,7 +26,7 @@ public class EmployeesController {
 
     @GetMapping(params = "gender")
     public List<Employee> findByGender(@RequestParam("gender") String gender) {
-        return employeeService.findByGender(gender);
+        return employeeService.findAllByGender(gender);
     }
 
     @DeleteMapping("/{employeeId}")
@@ -42,7 +42,7 @@ public class EmployeesController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Employee create(@RequestBody Employee employee) {
-        return employeeService.create(employee);
+        return employeeService.save(employee);
     }
 
     @PutMapping(path = "/{employeeId}")
