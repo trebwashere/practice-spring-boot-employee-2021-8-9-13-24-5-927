@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
+import com.thoughtworks.springbootemployee.service.RetiredCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class CompaniesController {
     CompanyService companyService;
 
     @GetMapping()
-    public List<Company> getAllCompanies() {
-        return companyService.getAllCompanies();
+    public List<Company> findAll() {
+        return companyService.findAll();
     }
 
     @GetMapping(path = "/{companyId}")
@@ -26,8 +27,8 @@ public class CompaniesController {
     }
 
     @GetMapping(path = "/{companyId}/employees")
-    public List<Employee> getAllEmployeesInCompany(@PathVariable Integer companyId) {
-        return companyService.getAllEmployeesInCompany(companyId);
+    public List<Employee> findAllByEmployeeCompanyId(@PathVariable Integer companyId) {
+        return companyService.findAllByEmployeeCompanyId(companyId);
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
@@ -37,8 +38,8 @@ public class CompaniesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Company create(@RequestBody Company company) {
-        return companyService.create(company);
+    public Company save(@RequestBody Company company) {
+        return companyService.save(company);
     }
 
     @PutMapping(path = "/{companyId}")

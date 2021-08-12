@@ -3,11 +3,11 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -18,64 +18,48 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> getAllCompanies(){
-        return companyRepository.getAll();
+    public List<Company> findAll(){
+        return companyRepository.findAll();
     }
 
     public Company findById(Integer companyId) {
-        return companyRepository.getAll().stream()
-                .filter(company -> company.getId().equals(companyId))
-                .findAny()
-                .orElse(null);
+        return companyRepository.findById(companyId).orElse(null);
     }
 
-    public List<Employee> getAllEmployeesInCompany(Integer companyId) {
-        return findById(companyId).getEmployees();
+    public List<Employee> findAllByEmployeeCompanyId(Integer companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        return company.getEmployees();
     }
 
     public List<Company> getListByPagination(Integer pageIndex, Integer pageSize) {
-        long paginationFormula =  (long) (pageIndex - 1) * pageSize;
-        return companyRepository.getAll().stream()
-                .skip(paginationFormula)
-                .limit(pageSize)
-                .collect(Collectors.toList());
+        return companyRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
-    public Company create(Company company) {
-        Company companyToBeAdded = new Company(companyRepository.getAll().size() + 1, company.getName(), company.getEmployees());
-        companyRepository.getAll().add(companyToBeAdded);
-
-        return companyToBeAdded;
+    public Company save(Company company) {
+        return companyRepository.save(company);
     }
-
 
     public Company update(Integer companyId, Company updateCompanyDetails) {
-        return companyRepository.getAll().stream()
-                .filter(company -> company.getId().equals(companyId))
-                .findFirst()
-                .map(company -> updateCompanyInformation(company, updateCompanyDetails))
-                .orElse(null);
+        Company toBeUpdated = companyRepository.findById(companyId).orElse(null);
+        if (toBeUpdated != null) {
+            updateCompanyInformation(toBeUpdated, updateCompanyDetails);
+            return save(toBeUpdated);
+        }
+        return null;
     }
 
-    private Company updateCompanyInformation(Company company, Company companyUpdate) {
-        if (companyUpdate.getName() != null) {
-            company.setName(companyUpdate.getName());
+    private void updateCompanyInformation(Company company, Company companyUpdate) {
+        if (companyUpdate.getCompanyName() != null) {
+            company.setCompanyName(companyUpdate.getCompanyName());
         }
         if (!companyUpdate.getEmployees().isEmpty() && companyUpdate.getEmployees() != null) {
             company.setEmployees(companyUpdate.getEmployees());
         }
-        return company;
     }
 
     public Company delete(Integer companyId) {
-        Company toBeRemoved = companyRepository.getAll().stream()
-                .filter(company -> company.getId()
-                        .equals(companyId))
-                .findFirst().orElse(null);
-        if (toBeRemoved != null) {
-            companyRepository.getAll().remove(toBeRemoved);
-            return toBeRemoved;
-        }
-        return null;
+        Company toBeDeleted = companyRepository.findById(companyId).orElse(null);
+        companyRepository.deleteById(companyId);
+        return toBeDeleted;
     }
 }

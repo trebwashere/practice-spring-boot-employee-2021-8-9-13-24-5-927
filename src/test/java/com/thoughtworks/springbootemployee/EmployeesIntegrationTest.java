@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +38,10 @@ public class EmployeesIntegrationTest {
     EmployeeService service;
 
     @Resource
-    EmployeeRepository testRepo;
+    EmployeeRepository employeeTestRepo;
+
+    @Resource
+    CompanyRepository companyTestRepo;
 
     @Autowired
     EntityManager entityManager;
@@ -56,7 +60,8 @@ public class EmployeesIntegrationTest {
     @AfterEach
     public void tearDown() {
         entityManager.joinTransaction();
-        testRepo.deleteAll();
+        employeeTestRepo.deleteAll();
+        companyTestRepo.deleteAll();
         entityManager.createNativeQuery("ALTER SEQUENCE COMPANY_SEQ RESTART WITH 1").executeUpdate();
         entityManager.createNativeQuery("ALTER SEQUENCE EMPLOYEE_SEQ RESTART WITH 1").executeUpdate();
     }
@@ -144,5 +149,16 @@ public class EmployeesIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(1)))
                 .andExpect(jsonPath("$[0].gender").value("Male"));
+    }
+
+    @Test
+    @Transactional
+    void should_return_employee_when_findById_given_employeeId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Bert"))
+                .andExpect(jsonPath("$.age").value(25))
+                .andExpect(jsonPath("$.salary").value(100))
+                .andExpect(jsonPath("$.gender").value("Male"));
     }
 }
