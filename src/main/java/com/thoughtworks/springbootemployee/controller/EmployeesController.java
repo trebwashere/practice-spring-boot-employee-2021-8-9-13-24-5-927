@@ -21,8 +21,8 @@ public class EmployeesController {
     EmployeeMapper employeeMapper;
 
     @GetMapping()
-    public List<Employee> getAllEmployees() {
-        return employeeService.findAll();
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeMapper.toResponseList(employeeService.findAll());
     }
 
     @GetMapping(path = "/{employeeId}")
@@ -31,18 +31,18 @@ public class EmployeesController {
     }
 
     @GetMapping(params = "gender")
-    public List<Employee> findByGender(@RequestParam("gender") String gender) {
-        return employeeService.findAllByGender(gender);
+    public List<EmployeeResponse> findByGender(@RequestParam("gender") String gender) {
+        return employeeMapper.toResponseList(employeeService.findAllByGender(gender));
     }
 
     @DeleteMapping("/{employeeId}")
-    public Employee delete(@PathVariable Integer employeeId) {
-        return employeeService.delete(employeeId);
+    public EmployeeResponse delete(@PathVariable Integer employeeId) {
+        return employeeMapper.toResponse(employeeService.delete(employeeId));
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<Employee> getListByPagination(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize) {
-        return employeeService.getListByPagination(pageIndex, pageSize);
+    public List<EmployeeResponse> getListByPagination(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize) {
+        return employeeMapper.toResponseList(employeeService.getListByPagination(pageIndex, pageSize));
     }
 
     @PostMapping
