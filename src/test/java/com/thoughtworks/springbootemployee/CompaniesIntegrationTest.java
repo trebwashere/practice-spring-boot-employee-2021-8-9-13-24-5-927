@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CompaniesIntegrationTest {
 
     @Autowired
@@ -40,15 +42,6 @@ public class CompaniesIntegrationTest {
 
     @Autowired
     CompanyService testService;
-
-    @Resource
-    EmployeeRepository employeeTestRepo;
-
-    @Resource
-    CompanyRepository companyTestRepo;
-
-    @Autowired
-    EntityManager entityManager;
 
     private Company company;
 
@@ -66,16 +59,7 @@ public class CompaniesIntegrationTest {
         testService.save(company);
     }
 
-    @AfterEach
-    public void tearDown() {
-        employeeTestRepo.deleteAll();
-        companyTestRepo.deleteAll();
-        entityManager.createNativeQuery("ALTER SEQUENCE COMPANY_SEQ RESTART WITH 1").executeUpdate();
-        entityManager.createNativeQuery("ALTER SEQUENCE EMPLOYEE_SEQ RESTART WITH 1").executeUpdate();
-    }
-
     @Test
-    @Transactional
     void should_return_all_companies_when_findAll_given_all_companies() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/"))
                 .andDo(print())
@@ -85,7 +69,6 @@ public class CompaniesIntegrationTest {
     }
 
     @Test
-    @Transactional
     void should_delete_company_when_delete_given_company_id_and_all_companies() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/companies/{id}", 1))
                 .andExpect(status().isOk())
@@ -97,7 +80,6 @@ public class CompaniesIntegrationTest {
     }
 
     @Test
-    @Transactional
     void should_update_company_when_update_given_company_information_and_company_id() throws Exception {
         String companyStr = "{\n" +
                 "    \"companyName\": \"Test1Company\",\n" +
@@ -133,7 +115,6 @@ public class CompaniesIntegrationTest {
     }
 
     @Test
-    @Transactional
     void should_create_company_and_add_to_list_when_create_given_company_information() throws Exception {
         String companyStr = "\n" +
                 "{\n" +
@@ -151,7 +132,6 @@ public class CompaniesIntegrationTest {
     }
 
     @Test
-    @Transactional
     void should_return_list_of_companies_based_on_pageIndex_and_pageSize() throws Exception {
         String pageIndex = "1";
         String pageSize = "2";
@@ -162,7 +142,6 @@ public class CompaniesIntegrationTest {
     }
 
     @Test
-    @Transactional
     void should_return_company_when_findById_given_companyId() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}", 1))
                 .andExpect(status().isOk())
