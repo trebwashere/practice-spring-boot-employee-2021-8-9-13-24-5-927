@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exceptions.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -24,15 +25,12 @@ public class CompanyService {
     }
 
     public Company findById(Integer companyId) {
-        return companyRepository.findById(companyId).orElse(null);
+        return companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
     }
 
     public List<Employee> findAllByEmployeeCompanyId(Integer companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        if (company != null) {
-            return company.getEmployees();
-        }
-        return Collections.emptyList();
+        Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
+        return company.getEmployees();
     }
 
     public List<Company> getListByPagination(Integer pageIndex, Integer pageSize) {
@@ -49,12 +47,9 @@ public class CompanyService {
     }
 
     public Company update(Integer companyId, Company updateCompanyDetails) {
-        Company toBeUpdated = companyRepository.findById(companyId).orElse(null);
-        if (toBeUpdated != null) {
-            updateCompanyInformation(toBeUpdated, updateCompanyDetails);
-            return companyRepository.save(toBeUpdated);
-        }
-        return null;
+        Company toBeUpdated = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
+        updateCompanyInformation(toBeUpdated, updateCompanyDetails);
+        return companyRepository.save(toBeUpdated);
     }
 
     private void updateCompanyInformation(Company company, Company companyUpdate) {
@@ -67,7 +62,7 @@ public class CompanyService {
     }
 
     public Company delete(Integer companyId) {
-        Company toBeDeleted = companyRepository.findById(companyId).orElse(null);
+        Company toBeDeleted = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
         companyRepository.deleteById(companyId);
         return toBeDeleted;
     }
