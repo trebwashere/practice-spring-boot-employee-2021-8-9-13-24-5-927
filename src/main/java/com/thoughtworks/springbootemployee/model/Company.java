@@ -11,14 +11,13 @@ public class Company {
     @SequenceGenerator(sequenceName = "COMPANY_SEQ", allocationSize = 1, name = "COMPANY_SEQ")
     private Integer id;
     private String companyName;
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "companyId", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "companyId")
     private List<Employee> employees = new ArrayList<>();
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
         this.employees = employees;
-        this.employees.forEach(employee -> employee.setCompanyId(this.id));
     }
 
     public Company() {

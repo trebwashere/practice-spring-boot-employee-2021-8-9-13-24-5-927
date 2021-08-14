@@ -36,18 +36,15 @@ public class EmployeeService {
     }
 
     public Employee delete(Integer employeeId) {
-        Optional<Employee> toBeRemoved = employeeRepository.findById(employeeId);
+        Employee toBeRemoved = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
         employeeRepository.deleteById(employeeId);
-        return toBeRemoved.orElse(null);
+        return toBeRemoved;
     }
 
     public Employee update(int employeeId, Employee updateEmployeeDetails) {
-        Employee toBeUpdated = employeeRepository.findById(employeeId).orElse(null);
-        if (toBeUpdated != null) {
-            updateEmployeeInformation(toBeUpdated, updateEmployeeDetails);
-            return save(toBeUpdated);
-        }
-        return null;
+        Employee toBeUpdated = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        updateEmployeeInformation(toBeUpdated, updateEmployeeDetails);
+        return save(toBeUpdated);
     }
 
     private void updateEmployeeInformation(Employee employee, Employee employeeUpdate) {

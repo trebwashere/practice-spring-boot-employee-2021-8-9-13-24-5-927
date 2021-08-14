@@ -42,8 +42,8 @@ public class CompanyService {
             return companyRepository.save(company);
         }
         Company toBeCreated = companyRepository.save(company);
-        Company companyWithEmployeesWithIds = new Company(toBeCreated.getId(), toBeCreated.getCompanyName(), toBeCreated.getEmployees());
-        return companyRepository.save(companyWithEmployeesWithIds);
+        toBeCreated.getEmployees().forEach(employee -> employee.setCompanyId(toBeCreated.getId()));
+        return companyRepository.save(toBeCreated);
     }
 
     public Company update(Integer companyId, Company updateCompanyDetails) {
@@ -63,6 +63,9 @@ public class CompanyService {
 
     public Company delete(Integer companyId) {
         Company toBeDeleted = companyRepository.findById(companyId).orElseThrow(CompanyNotFoundException::new);
+        if (!toBeDeleted.getEmployees().isEmpty()) {
+            toBeDeleted.getEmployees().forEach(employee -> employee.setCompanyId(null));
+        }
         companyRepository.deleteById(companyId);
         return toBeDeleted;
     }
