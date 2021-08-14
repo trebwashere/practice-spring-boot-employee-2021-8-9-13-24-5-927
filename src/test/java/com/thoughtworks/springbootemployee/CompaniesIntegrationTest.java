@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee;
 
+import com.thoughtworks.springbootemployee.exceptions.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -27,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -147,5 +150,13 @@ public class CompaniesIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyName").value("BertCompany"))
                 .andExpect(jsonPath("$.employees", hasSize(2)));
+    }
+
+    @Test
+    void should_return_CompanyNotFoundException_when_findById_given_invalid_companyId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}", 3))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof CompanyNotFoundException))
+                .andExpect(jsonPath("$.message").value("Company does not exist!"));
     }
 }
