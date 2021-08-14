@@ -23,11 +23,11 @@ public class Company {
     public Company() {
     }
 
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 
-    public String getCompanyName(){
+    public String getCompanyName() {
         return companyName;
     }
 

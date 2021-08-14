@@ -13,11 +13,11 @@ public class RetiredEmployeeService {
     @Resource
     private RetiredEmployeeRepository retiredEmployeeRepository;
 
-    public RetiredEmployeeService(RetiredEmployeeRepository retiredEmployeeRepository){
+    public RetiredEmployeeService(RetiredEmployeeRepository retiredEmployeeRepository) {
         this.retiredEmployeeRepository = retiredEmployeeRepository;
     }
 
-    public List<Employee> getAllEmployees(){
+    public List<Employee> getAllEmployees() {
         return retiredEmployeeRepository.getAll();
     }
 
@@ -35,7 +35,7 @@ public class RetiredEmployeeService {
     }
 
     public List<Employee> getListByPagination(Integer pageIndex, Integer pageSize) {
-        long paginationFormula =  (long) (pageIndex - 1) * pageSize;
+        long paginationFormula = (long) (pageIndex - 1) * pageSize;
         return retiredEmployeeRepository.getAll().stream()
                 .skip(paginationFormula)
                 .limit(pageSize)
@@ -63,7 +63,7 @@ public class RetiredEmployeeService {
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
-        if(employeeUpdate.getAge() != null) {
+        if (employeeUpdate.getAge() != null) {
             employee.setAge(employeeUpdate.getAge());
         }
         if (employeeUpdate.getGender() != null) {

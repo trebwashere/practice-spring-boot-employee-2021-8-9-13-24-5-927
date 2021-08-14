@@ -15,7 +15,7 @@ public class Employee {
     private Integer salary;
     private Integer companyId;
 
-    public Employee(Integer id, String name, Integer age, Integer salary, String gender){
+    public Employee(Integer id, String name, Integer age, Integer salary, String gender) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -27,23 +27,23 @@ public class Employee {
 
     }
 
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public Integer getAge(){
+    public Integer getAge() {
         return age;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public Integer getSalary(){
+    public Integer getSalary() {
         return salary;
     }
 

@@ -31,8 +31,8 @@ public class RetiredEmployeesTest {
 
     @BeforeEach
     public void setup() {
-        expectedEmployees = Arrays.asList(new Employee(1, "Bert", 25, 100,"Male"),
-                new Employee(2, "Kyle", 25, 100,"Male"),
+        expectedEmployees = Arrays.asList(new Employee(1, "Bert", 25, 100, "Male"),
+                new Employee(2, "Kyle", 25, 100, "Male"),
                 new Employee(3, "Shanine", 24, 1000, "Female"));
     }
 
@@ -73,8 +73,8 @@ public class RetiredEmployeesTest {
 
     @Test
     void should_return_five_elements_only_in_a_list_when_getListByPagination_given_pageSize_is_five_and_pageIndex_is_one() {
-        given(retiredEmployeeRepository.getAll()).willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee(),new Employee(),new Employee()
-        ,new Employee(),new Employee(),new Employee(),new Employee()));
+        given(retiredEmployeeRepository.getAll()).willReturn(Arrays.asList(new Employee(), new Employee(), new Employee(), new Employee(), new Employee(), new Employee()
+                , new Employee(), new Employee(), new Employee(), new Employee()));
         int expectedCount = 5;
         int outputCount = service.getListByPagination(1, 5).size();
         assertEquals(outputCount, expectedCount);
@@ -83,7 +83,7 @@ public class RetiredEmployeesTest {
     @Test
     void should_delete_employee_when_delete_given_employee_id_and_all_employees() {
         List<Employee> expectedEmployees = new ArrayList<>();
-        expectedEmployees.add(new Employee(1, "Bert", 25, 100,"Male"));
+        expectedEmployees.add(new Employee(1, "Bert", 25, 100, "Male"));
         expectedEmployees.add(new Employee(2, "Kyle", 25, 100, "Male"));
         expectedEmployees.add(new Employee(3, "Shanine", 24, 1000, "Female"));
         given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
@@ -96,9 +96,9 @@ public class RetiredEmployeesTest {
     @Test
     void should_update_employee_when_update_given_employee_information_and_employee_id() {
         given(retiredEmployeeRepository.getAll()).willReturn(expectedEmployees);
-        Employee updateEmployeeDetails = new Employee(){{
-           setName("Bertwo");
-           setSalary(10000);
+        Employee updateEmployeeDetails = new Employee() {{
+            setName("Bertwo");
+            setSalary(10000);
         }};
         Employee outputEmployeeAfterUpdate = service.update(1, updateEmployeeDetails);
         assertEquals(expectedEmployees.get(0).getName(), updateEmployeeDetails.getName());
@@ -111,7 +111,7 @@ public class RetiredEmployeesTest {
     void should_create_employee_and_add_to_list_when_create_given_employee_information() {
         List<Employee> employees = new ArrayList<>();
         given(retiredEmployeeRepository.getAll()).willReturn(employees);
-        Employee updateEmployeeDetails = new Employee(){{
+        Employee updateEmployeeDetails = new Employee() {{
             setName("Bertwo");
             setAge(25);
             setGender("Male");

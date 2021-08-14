@@ -8,7 +8,7 @@ public class EmployeeRequest {
     private Integer salary;
     private Integer companyId;
 
-    public EmployeeRequest(String name, Integer age, Integer salary, String gender, Integer companyId){
+    public EmployeeRequest(String name, Integer age, Integer salary, String gender, Integer companyId) {
         this.name = name;
         this.age = age;
         this.salary = salary;
@@ -21,19 +21,19 @@ public class EmployeeRequest {
     }
 
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public Integer getAge(){
+    public Integer getAge() {
         return age;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public Integer getSalary(){
+    public Integer getSalary() {
         return salary;
     }
 

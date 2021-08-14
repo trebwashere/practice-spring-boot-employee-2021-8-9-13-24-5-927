@@ -14,11 +14,11 @@ public class RetiredCompanyService {
     @Resource
     private RetiredCompanyRepository retiredCompanyRepository;
 
-    public RetiredCompanyService(RetiredCompanyRepository retiredCompanyRepository){
+    public RetiredCompanyService(RetiredCompanyRepository retiredCompanyRepository) {
         this.retiredCompanyRepository = retiredCompanyRepository;
     }
 
-    public List<Company> getAllCompanies(){
+    public List<Company> getAllCompanies() {
         return retiredCompanyRepository.getAll();
     }
 
@@ -34,7 +34,7 @@ public class RetiredCompanyService {
     }
 
     public List<Company> getListByPagination(Integer pageIndex, Integer pageSize) {
-        long paginationFormula =  (long) (pageIndex - 1) * pageSize;
+        long paginationFormula = (long) (pageIndex - 1) * pageSize;
         return retiredCompanyRepository.getAll().stream()
                 .skip(paginationFormula)
                 .limit(pageSize)

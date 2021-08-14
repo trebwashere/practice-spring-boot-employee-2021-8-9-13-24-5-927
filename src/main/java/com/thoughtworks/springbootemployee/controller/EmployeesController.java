@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.request.EmployeeRequest;
 import com.thoughtworks.springbootemployee.model.response.EmployeeResponse;
 import com.thoughtworks.springbootemployee.service.EmployeeService;

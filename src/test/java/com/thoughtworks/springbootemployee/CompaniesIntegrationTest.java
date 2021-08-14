@@ -1,13 +1,9 @@
 package com.thoughtworks.springbootemployee;
 
 import com.thoughtworks.springbootemployee.exceptions.CompanyNotFoundException;
-import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,11 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -107,9 +99,9 @@ public class CompaniesIntegrationTest {
                 "}";
 
         mockMvc.perform(MockMvcRequestBuilders.put("/companies/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(companyStr))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(companyStr))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyName").value("Test1Company"))
                 .andExpect(jsonPath("$.employees[*]", hasSize(2)))
@@ -127,9 +119,9 @@ public class CompaniesIntegrationTest {
         testService.save(company);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/companies")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(companyStr))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(companyStr))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.companyName").value("Test3Company"));
     }
@@ -139,7 +131,7 @@ public class CompaniesIntegrationTest {
         String pageIndex = "1";
         String pageSize = "2";
         mockMvc.perform(MockMvcRequestBuilders.get("/companies")
-                .param("pageIndex", pageIndex).param("pageSize", pageSize))
+                        .param("pageIndex", pageIndex).param("pageSize", pageSize))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)));
     }

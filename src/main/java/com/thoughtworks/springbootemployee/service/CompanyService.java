@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,11 +15,11 @@ public class CompanyService {
     @Resource
     private CompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository companyRepository){
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> findAll(){
+    public List<Company> findAll() {
         return companyRepository.findAll();
     }
 

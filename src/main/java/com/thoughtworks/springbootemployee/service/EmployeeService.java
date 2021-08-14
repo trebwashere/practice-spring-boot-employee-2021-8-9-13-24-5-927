@@ -3,15 +3,11 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import javafx.scene.control.Pagination;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -19,7 +15,7 @@ public class EmployeeService {
     @Resource
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> findAll(){
+    public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 
@@ -48,7 +44,7 @@ public class EmployeeService {
     }
 
     private void updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
-        if(employeeUpdate.getAge() != null) {
+        if (employeeUpdate.getAge() != null) {
             employee.setAge(employeeUpdate.getAge());
         }
         if (employeeUpdate.getGender() != null) {

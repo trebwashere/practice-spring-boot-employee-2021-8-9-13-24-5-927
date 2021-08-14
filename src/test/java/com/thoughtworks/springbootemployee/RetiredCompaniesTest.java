@@ -34,11 +34,11 @@ public class RetiredCompaniesTest {
     public void setup() {
         expectedCompanies.add(new Company(1,
                 "BertCompany",
-                Arrays.asList(new Employee(1, "Bert", 25, 100,"Male"),
-                        new Employee(2, "Kyle", 25, 100,"Male"))));
+                Arrays.asList(new Employee(1, "Bert", 25, 100, "Male"),
+                        new Employee(2, "Kyle", 25, 100, "Male"))));
         expectedCompanies.add(new Company(2,
                 "KyleCompany",
-                Arrays.asList(new Employee(1, "Bert2", 52, 1000,"Female"),
+                Arrays.asList(new Employee(1, "Bert2", 52, 1000, "Female"),
                         new Employee(2, "Kyle2", 52, 1000, "Male"))));
     }
 
@@ -65,8 +65,8 @@ public class RetiredCompaniesTest {
 
     @Test
     void should_return_five_elements_only_in_a_list_when_getListByPagination_given_pageSize_is_five_and_pageIndex_is_one() {
-        given(retiredCompanyRepository.getAll()).willReturn(Arrays.asList(new Company(),new Company(),new Company(),new Company(),new Company(),new Company()
-                ,new Company(),new Company(),new Company(),new Company()));
+        given(retiredCompanyRepository.getAll()).willReturn(Arrays.asList(new Company(), new Company(), new Company(), new Company(), new Company(), new Company()
+                , new Company(), new Company(), new Company(), new Company()));
         int expectedCount = 5;
         int outputCount = service.getListByPagination(1, 5).size();
         assertEquals(outputCount, expectedCount);
@@ -76,7 +76,7 @@ public class RetiredCompaniesTest {
     void should_create_company_and_add_to_list_when_create_given_company_information() {
         List<Company> companies = new ArrayList<>();
         given(retiredCompanyRepository.getAll()).willReturn(companies);
-        Company createCompanyDetails = new Company(){{
+        Company createCompanyDetails = new Company() {{
             setCompanyName("TestCompany");
             setEmployees(Arrays.asList(new Employee(), new Employee()));
         }};
@@ -91,15 +91,15 @@ public class RetiredCompaniesTest {
     void should_update_company_when_update_given_company_information_and_company_id() {
         given(retiredCompanyRepository.getAll()).willReturn(expectedCompanies);
         Employee testEmployee = new Employee();
-        Company updateCompanyDetails = new Company(){{
+        Company updateCompanyDetails = new Company() {{
             setCompanyName("Bertwo");
-            setEmployees(Arrays.asList(testEmployee,testEmployee));
+            setEmployees(Arrays.asList(testEmployee, testEmployee));
         }};
         Company outputCompanyAfterUpdate = service.update(1, updateCompanyDetails);
         assertEquals(expectedCompanies.get(0).getCompanyName(), updateCompanyDetails.getCompanyName());
         assertEquals(testEmployee, updateCompanyDetails.getEmployees().get(0));
         assertEquals(outputCompanyAfterUpdate.getCompanyName(), updateCompanyDetails.getCompanyName());
-        assertEquals(outputCompanyAfterUpdate.getEmployees().get(0),updateCompanyDetails.getEmployees().get(0));
+        assertEquals(outputCompanyAfterUpdate.getEmployees().get(0), updateCompanyDetails.getEmployees().get(0));
     }
 
     @Test
